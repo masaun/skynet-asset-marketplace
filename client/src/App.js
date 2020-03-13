@@ -68,6 +68,10 @@ class App extends Component {
         const resultReceived = await this.state.contract.methods.resultReceived().call();
         const result = await this.state.contract.methods.result().call();
 
+        //@dev - Assign responsed value from CoinMarketCap
+        const currentPrice = await this.state.contract.methods.currentPrice().call();
+        console.log('=== currentPrice ===', currentPrice);
+
         var resultMessage;
         if (resultReceived) {
             if (result) {
