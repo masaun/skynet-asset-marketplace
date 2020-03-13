@@ -15,12 +15,18 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
     bool public resultReceived;
     bool public result;
 
+    // @dev - Assign responsed value from CoinMarketCap
+    uint256 public currentPrice;
+
+
     constructor(
         address _link,
         address _oracle,
         bytes32 _jobId,
-        uint256 _oraclePaymentAmount
-        )
+        uint256 _oraclePaymentAmount,
+        string _coin,
+        string _market
+    )
     Ownable()
     public
     {
@@ -66,9 +72,22 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
     {
         require(!resultReceived, "The result has already been received.");
         Chainlink.Request memory req = buildChainlinkRequest(jobId, this, this.fulfill.selector);
-        req.add("low", "1");
-        req.add("high", "6");
-        req.add("copyPath", "random_number");
+        // req.add("low", "1");
+        // req.add("high", "6");
+        // req.add("copyPath", "random_number");
+
+        // @dev - request path of CoinMarketCap 
+        req.add("sym", _coin);
+        req.add("convert", _market);
+        string[] memory path = new string[](5);
+        path[0] = "data";
+        path[1] = _coin;
+        path[2] = "quote";
+        path[3] = _market;
+        path[4] = "price";
+        req.addStringArray("copyPath", path);
+        req.addInt("times", 100);
+
         requestId = sendChainlinkRequestTo(chainlinkOracleAddress(), req, oraclePaymentAmount);
     }
 
@@ -84,18 +103,20 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
         }
     }
 
-    function fulfill(bytes32 _requestId, int256 data)
+    function fulfill(bytes32 _requestId, int256 _price)
     public
     recordChainlinkFulfillment(_requestId)
     {
         resultReceived = true;
-        if (data == 6)
-        {
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
+
+        currentPrice = _price;
+        // if (data == 6)
+        // {
+        //     result = true;
+        // }
+        // else
+        // {
+        //     result = false;
+        // }
     }
 }

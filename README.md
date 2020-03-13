@@ -43,6 +43,11 @@ https://coinmarketcap.com/currencies/siacoin/
 
 - CoinMarketCap Chainlink (Testnet)  
 https://docs.chain.link/docs/coinmarketcap#section-create-your-chainlinked-contract   
+   - `getV1CryptocurrencyQuotesLatest` which is supported by chainlink  
+     https://pro.coinmarketcap.com/api/v1#operation/getV1CryptocurrencyQuotesLatest
+
+
+<br>
 
 - honeycomb-wiki   
 https://github.com/clc-group/honeycomb-wiki/wiki
