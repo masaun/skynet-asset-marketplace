@@ -9,6 +9,7 @@
 <br />
 
 ## Use Case
+### [Use Case ①]：
 - Graphic Designer (especially, freelance) can sell their creative for company who want to buy their creative for creating good advertisements.
   - Graphic Designer create creatives by using many kind of type files(text, video, audio, etc...). Skynet can upload assets which are not only text files, but also video files and audio files. That's why skynet is eligible for this case.
   - In this case, Graphic Designer can track ownership of their assets.
