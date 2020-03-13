@@ -4,7 +4,7 @@
   "description": "skynet-asset marketplace is marketplace that users can buy/sell uploaded files on skynet by using SC-coin",
   "main": "index.js",
   "scripts": {
-    "deploy-ropsten": "truffle migrate --network ropsten --reset"
+    "migrate:ropsten": "truffle migrate --network ropsten --reset"
   },
   "author": "masaun",
   "license": "ISC",
