@@ -10,6 +10,7 @@
 
 ## Use Case
 - Graphic Designer (especially, freelance) can sell their creative for company who want to buy their creative for creating good advertisements.
+  - Graphic Designer create creatives by using many kind of type files(text, video, audio, etc...). Skynet can upload assets which are not only text files, but also video files and audio files. That's why skynet is eligible for this case.
   - In this case, Graphic Designer can track ownership of their assets.
   - In this case, Graphic Designer who is seller get Siacoin (SC) as compensation from companies who is buyer. And then, they can exchange from Siacoin (SC) to another cryptocurrancies via ShapeShift, Binance, etc... ( https://sia.tech/get-siacoin ）
 
@@ -23,7 +24,7 @@ https://gitcoin.co/issue/NebulousLabs/Skynet-Hive/1/4058
 - Skynet（Browser）  
 https://siasky.net/
 
-- Document of Skynet
+- Document of Skynet  
 https://sia.tech/docs/#skynet
 
 - WebSite  
@@ -36,7 +37,7 @@ https://github.com/NebulousLabs/skynet-blogger
 - Discord  
 https://discordapp.com/channels/341359001797132308/682336097983791105
 
-- Token price of Siacoin (SC) on CoinMarketCap
+- Token price of Siacoin (SC) on CoinMarketCap  
 https://coinmarketcap.com/currencies/siacoin/
 
 - CoinMarketCap Chainlink (Testnet)  
