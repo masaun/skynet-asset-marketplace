@@ -351,17 +351,28 @@ class App extends Component {
 
                             <h3>↓</h3>
 
-                            <Image
-                              alt="random unsplash image"
-                              borderRadius={8}
-                              height="100%"
-                              maxWidth='100%'
-                              src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
-                            />
+                            <Card width={"auto"} 
+                                  maxWidth={"420px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            >
 
-                            <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
-                                Upload on skynet
-                            </Button>
+                              <Image
+                                alt="random unsplash image"
+                                borderRadius={8}
+                                height="100%"
+                                maxWidth='100%'
+                                src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
+                              />
+
+                              <p>Price: 100 SC（0.001 USD）</p>
+
+                              <Button variant="contained" color="primary">
+                                  Buy this asset
+                              </Button>
+                            </Card>
                         </Grid>
                         <Grid item xs={4}>
                         </Grid>
