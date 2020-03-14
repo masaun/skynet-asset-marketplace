@@ -23,9 +23,9 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
         address _link,
         address _oracle,
         bytes32 _jobId,
-        uint256 _oraclePaymentAmount,
-        string _coin,
-        string _market
+        uint256 _oraclePaymentAmount
+        //string _coin,
+        //string _market
     )
     Ownable()
     public
@@ -68,7 +68,7 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
 
     // You probably do not want onlyOwner here
     // But then, you need some mechanism to prevent people from spamming this
-    function requestResult() external onlyOwner returns (bytes32 requestId)
+    function requestResult(string _coin, string _market) external onlyOwner returns (bytes32 requestId)
     {
         require(!resultReceived, "The result has already been received.");
         Chainlink.Request memory req = buildChainlinkRequest(jobId, this, this.fulfill.selector);
@@ -103,7 +103,7 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
         }
     }
 
-    function fulfill(bytes32 _requestId, int256 _price)
+    function fulfill(bytes32 _requestId, uint256 _price)
     public
     recordChainlinkFulfillment(_requestId)
     {

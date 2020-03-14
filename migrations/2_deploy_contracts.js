@@ -7,8 +7,8 @@ const oracle = "0xc99B3D447826532722E41bc36e644ba3479E4365";             // Chai
 const jobId = web3.utils.toHex("e6d74030e4a440898965157bc5a08abc");      // Chainlink's JobID on Ropsten
 
 //@dev - Argument value you want to get from CoinMarketCap Chainlink (Testnet of Ropsten) 
-const coin = "ETH"
-const market = "USD" 
+//const coin = "ETH"
+//const market = "USD" 
 
 //@dev - Payment amount every request
 const paymentAmount = web3.utils.toWei("0.1");
