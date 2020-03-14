@@ -120,6 +120,7 @@ class App extends Component {
             }
             this.refreshState();
             this.setState({ message: "The result is delivered" });
+            this.setState({ messageOfResult: `1 SC = ${this.state.currentPrice} USD` });
         } catch (error) {
             console.error(error);
             this.setState({ message: "Failed getting the result" });
@@ -286,9 +287,9 @@ class App extends Component {
                     </Grid>
 
                     <Typography variant="h5" style={{ marginTop: 32 }}>
-                        {this.state.message}
+                        {this.state.message} <br />
+                        {this.state.messageOfResult}
                     </Typography>
-
                 </div>
             </ThemeProvider>
         );
