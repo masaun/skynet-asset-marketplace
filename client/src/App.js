@@ -341,6 +341,11 @@ class App extends Component {
                             <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
                                 Upload on skynet
                             </Button>
+
+                            <h3>↓</h3>
+
+                            <h3>Hash of being uploaded file</h3>
+                            <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
                         </Grid>
                         <Grid item xs={4}>
                         </Grid>
