@@ -3,7 +3,7 @@ pragma solidity 0.4.24;
 import "../node_modules/chainlink/contracts/ChainlinkClient.sol";
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
+contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
     mapping(address => uint256) private betsTrue;
     mapping(address => uint256) private betsFalse;
     uint256 public totalBetTrue;
