@@ -75,10 +75,10 @@ class App extends Component {
         var resultMessage;
         if (resultReceived) {
             if (result) {
-                resultMessage = "Result is 6";
+                resultMessage = `1 SC = ${currentPrice} USD`;
             }
             else {
-                resultMessage = "Result is not 6";
+                resultMessage = "Result has not been received yet";
             }
         }
         else {
@@ -105,7 +105,7 @@ class App extends Component {
         //@dev - Define variable for request to CoinMarketCap
         const _coin = "SC"      //@dev - Siacoin - Specify a symbol of currency before it is converted
         //const _coin = "ETH"   //@dev - ETH - Specify a symbol of currency before it is converted
-        const _market = "USD"   //@dev - - Specify a symbol of currency after it is converted
+        const _market = "USD"   //@dev - USD - Specify a symbol of currency after it is converted
 
         //@dev - Original codes
         const lastBlock = await this.state.web3.eth.getBlock("latest");
