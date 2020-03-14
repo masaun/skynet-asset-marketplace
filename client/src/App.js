@@ -103,8 +103,9 @@ class App extends Component {
 
     handleRequestResults = async () => {
         //@dev - Define variable for request to CoinMarketCap
-        const _coin = "ETH"     //@dev - Specify a symbol of currency before it is converted
-        const _market = "USD"   //@dev - Specify a symbol of currency after it is converted
+        const _coin = "SC"      //@dev - Siacoin - Specify a symbol of currency before it is converted
+        //const _coin = "ETH"   //@dev - ETH - Specify a symbol of currency before it is converted
+        const _market = "USD"   //@dev - - Specify a symbol of currency after it is converted
 
         //@dev - Original codes
         const lastBlock = await this.state.web3.eth.getBlock("latest");
