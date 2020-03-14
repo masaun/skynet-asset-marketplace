@@ -17,6 +17,10 @@ class App extends Component {
 
     componentDidMount = async () => {
         try {
+            //@dev - Create instance of Sia Skynet 
+            const skynet = require('@nebulous/skynet');
+            console.log('=== skynet ===', skynet);
+
             // Get network provider and web3 instance.
             const web3 = await getWeb3();
 
@@ -58,6 +62,32 @@ class App extends Component {
         }
     };
 
+
+    //////////////////////////////////////////////////////////////////
+    /// @dev - Upload files by using skynet
+    //////////////////////////////////////////////////////////////////
+    (async () => {
+      // upload
+      const skylink = await skynet.UploadFile(
+        "./src.jpg",
+        skynet.DefaultUploadOptions
+      );
+      console.log(`Upload successful, skylink: ${skylink}`);
+            
+      // download
+      await skynet.DownloadFile(
+        "./dst.jpg",
+        skylink,
+        skynet.DefaultDownloadOptions
+      );
+      console.log('Download successful');
+    })()
+
+
+
+    //////////////////////////////////////////////////////////////////
+    /// @dev - Price Feed of SC (SiaCoin) by using ChainLink's oracle
+    //////////////////////////////////////////////////////////////////
     refreshState = async () => {
         const totalBetTrue = await this.state.web3.utils.fromWei(await this.state.contract.methods.totalBetTrue().call());
         const totalBetFalse = await this.state.web3.utils.fromWei(await this.state.contract.methods.totalBetFalse().call());
