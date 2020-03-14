@@ -69,8 +69,11 @@ class App extends Component {
         const result = await this.state.contract.methods.result().call();
 
         //@dev - Assign responsed value from CoinMarketCap
-        const currentPrice = await this.state.contract.methods.currentPrice().call();
+        const _currentPrice = await this.state.contract.methods.currentPrice().call();
+        console.log('=== _currentPrice ===', _currentPrice);
+        const currentPrice = await _currentPrice / 1000000;  //@dev - Calculate price which is divided by 1000000 equal to "times" (which is specified in SkynetAssetMarketplace.sol of solidity file)
         console.log('=== currentPrice ===', currentPrice);
+        this.setState({ messageOfResult: `1 SC = ${this.state.currentPrice} USD` });
 
         var resultMessage;
         if (resultReceived) {
@@ -120,7 +123,6 @@ class App extends Component {
             }
             this.refreshState();
             this.setState({ message: "The result is delivered" });
-            this.setState({ messageOfResult: `1 SC = ${this.state.currentPrice} USD` });
         } catch (error) {
             console.error(error);
             this.setState({ message: "Failed getting the result" });
