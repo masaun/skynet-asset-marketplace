@@ -71,7 +71,7 @@ class App extends Component {
     //////////////////////////////////////////////////////////////////
     /// @dev - Upload files by using skynet
     //////////////////////////////////////////////////////////////////
-    upload = async () => {
+    uploadOnSkynet = async () => {
         // Reading instance of skynet
         const { skynet } = this.state;
 
@@ -84,7 +84,7 @@ class App extends Component {
               
         // download
         await skynet.DownloadFile(
-            "./dst.jpg",
+            "./images/sample_image.jpg",
             skylink,
             skynet.DefaultDownloadOptions
         );
@@ -318,12 +318,12 @@ class App extends Component {
                         <Grid item xs={3}>
                             <Button variant="contained" color="primary" onClick={() => this.handleRequestResults()}>
                                 Request result
-                </Button>
+                            </Button>
                         </Grid>
                         <Grid item xs={3}>
                             <Button variant="contained" color="primary" onClick={() => this.handleWithdraw()}>
                                 Withdraw winnings
-              </Button>
+                            </Button>
                         </Grid>
                     </Grid>
 
@@ -331,6 +331,20 @@ class App extends Component {
                         {this.state.message} <br />
                         {this.state.messageOfResult}
                     </Typography>
+
+                    <hr />
+
+                    <Grid container style={{ marginTop: 32 }}>
+                        <Grid item xs={4}>
+                        </Grid>
+                        <Grid item xs={4}>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
+                                Upload on skynet
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </div>
             </ThemeProvider>
         );
