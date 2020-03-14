@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
+import { Card, Image } from 'rimble-ui';
 
 import SkynetAssetMarketplace from "./contracts/SkynetAssetMarketplace.json";
 import getWeb3 from "./utils/getWeb3";
@@ -8,6 +9,7 @@ import getWeb3 from "./utils/getWeb3";
 import { theme } from './utils/theme';
 import Header from './components/Header';
 import "./App.css";
+
 
 const GAS = 500000;
 const GAS_PRICE = "20000000000";
@@ -17,6 +19,10 @@ class App extends Component {
 
     componentDidMount = async () => {
         try {
+            //@dev - Create instance of Sia Skynet 
+            const skynet = require('@nebulous/skynet');
+            console.log('=== skynet ===', skynet);
+
             // Get network provider and web3 instance.
             const web3 = await getWeb3();
 
@@ -34,7 +40,12 @@ class App extends Component {
                 deployedNetwork && deployedNetwork.address,
             );
 
-            this.setState({ web3, accounts, contract });
+            this.setState({
+                skynet,
+                web3, 
+                accounts, 
+                contract 
+            });
 
             window.ethereum.on('accountsChanged', async (accounts) => {
                 const newAccounts = await web3.eth.getAccounts();
@@ -58,6 +69,36 @@ class App extends Component {
         }
     };
 
+
+    //////////////////////////////////////////////////////////////////
+    /// @dev - Upload files by using skynet
+    //////////////////////////////////////////////////////////////////
+    uploadOnSkynet = async () => {
+        // Reading instance of skynet
+        const { skynet } = this.state;
+
+        // Upload
+        const skylink = await skynet.UploadFile(
+            "./images/sample_image.jpg",
+            skynet.DefaultUploadOptions
+        );
+        console.log(`Upload successful, skylink: ${skylink}`);
+              
+        // download
+        // await skynet.DownloadFile(
+        //     "./images/sample_image.jpg",
+        //     skylink,
+        //     skynet.DefaultDownloadOptions
+        // );
+        // console.log('Download successful');
+    }
+    
+
+
+
+    //////////////////////////////////////////////////////////////////
+    /// @dev - Price Feed of SC (SiaCoin) by using ChainLink's oracle
+    //////////////////////////////////////////////////////////////////
     refreshState = async () => {
         const totalBetTrue = await this.state.web3.utils.fromWei(await this.state.contract.methods.totalBetTrue().call());
         const totalBetFalse = await this.state.web3.utils.fromWei(await this.state.contract.methods.totalBetFalse().call());
@@ -68,20 +109,36 @@ class App extends Component {
         const resultReceived = await this.state.contract.methods.resultReceived().call();
         const result = await this.state.contract.methods.result().call();
 
+        //@dev - Assign responsed value from CoinMarketCap
+        const _currentPrice = await this.state.contract.methods.currentPrice().call();
+        console.log('=== _currentPrice ===', _currentPrice);
+        const currentPrice = await _currentPrice / 1000000;  //@dev - Calculate price which is divided by 1000000 equal to "times" (which is specified in SkynetAssetMarketplace.sol of solidity file)
+        console.log('=== currentPrice ===', currentPrice);
+        this.setState({ messageOfResult: `1 SC = ${this.state.currentPrice} USD` });
+
         var resultMessage;
         if (resultReceived) {
             if (result) {
-                resultMessage = "Result is 6";
+                resultMessage = `1 SC = ${currentPrice} USD`;
             }
             else {
-                resultMessage = "Result is not 6";
+                resultMessage = "Result has not been received yet";
             }
         }
         else {
             resultMessage = "Result has not been received yet";
         }
 
-        this.setState({ totalBetTrue, totalBetFalse, myBetTrue, myBetFalse, resultReceived, result, resultMessage });
+        this.setState({ 
+          totalBetTrue, 
+          totalBetFalse, 
+          myBetTrue, 
+          myBetFalse, 
+          resultReceived, 
+          result, 
+          currentPrice,   //@dev - For skynet
+          resultMessage 
+        });
     }
 
     handleUpdateForm = (name, value) => {
@@ -89,10 +146,16 @@ class App extends Component {
     }
 
     handleRequestResults = async () => {
+        //@dev - Define variable for request to CoinMarketCap
+        const _coin = "SC"      //@dev - Siacoin - Specify a symbol of currency before it is converted
+        //const _coin = "ETH"   //@dev - ETH - Specify a symbol of currency before it is converted
+        const _market = "USD"   //@dev - USD - Specify a symbol of currency after it is converted
+
+        //@dev - Original codes
         const lastBlock = await this.state.web3.eth.getBlock("latest");
         this.setState({ message: "Requesting the result from the oracle..." });
         try {
-            await this.state.contract.methods.requestResult().send({ from: this.state.accounts[0], gas: GAS, gasPrice: GAS_PRICE });
+            await this.state.contract.methods.requestResult(_coin, _market).send({ from: this.state.accounts[0], gas: GAS, gasPrice: GAS_PRICE });
             while (true) {
                 const responseEvents = await this.state.contract.getPastEvents('ChainlinkFulfilled', { fromBlock: lastBlock.number, toBlock: 'latest' });
                 if (responseEvents.length !== 0) {
@@ -257,19 +320,49 @@ class App extends Component {
                         <Grid item xs={3}>
                             <Button variant="contained" color="primary" onClick={() => this.handleRequestResults()}>
                                 Request result
-                </Button>
+                            </Button>
                         </Grid>
                         <Grid item xs={3}>
                             <Button variant="contained" color="primary" onClick={() => this.handleWithdraw()}>
                                 Withdraw winnings
-              </Button>
+                            </Button>
                         </Grid>
                     </Grid>
 
                     <Typography variant="h5" style={{ marginTop: 32 }}>
-                        {this.state.message}
+                        {this.state.message} <br />
+                        {this.state.messageOfResult}
                     </Typography>
 
+                    <hr />
+
+                    <Grid container style={{ marginTop: 32 }}>
+                        <Grid item xs={4}>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
+                                Upload on skynet
+                            </Button>
+
+                            <h3>↓</h3>
+
+                            <h3>Hash of being uploaded file</h3>
+                            <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
+
+                            <h3>↓</h3>
+
+                            <Image
+                              alt="random unsplash image"
+                              borderRadius={8}
+                              height="100%"
+                              maxWidth='100%'
+                              src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
+                            />
+
+                        </Grid>
+                        <Grid item xs={4}>
+                        </Grid>
+                    </Grid>
                 </div>
             </ThemeProvider>
         );

@@ -3,7 +3,7 @@ pragma solidity 0.4.24;
 import "../node_modules/chainlink/contracts/ChainlinkClient.sol";
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
+contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
     mapping(address => uint256) private betsTrue;
     mapping(address => uint256) private betsFalse;
     uint256 public totalBetTrue;
@@ -15,12 +15,18 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
     bool public resultReceived;
     bool public result;
 
+    // @dev - Assign responsed value from CoinMarketCap
+    uint256 public currentPrice;
+
+
     constructor(
         address _link,
         address _oracle,
         bytes32 _jobId,
         uint256 _oraclePaymentAmount
-        )
+        //string _coin,
+        //string _market
+    )
     Ownable()
     public
     {
@@ -62,13 +68,26 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
 
     // You probably do not want onlyOwner here
     // But then, you need some mechanism to prevent people from spamming this
-    function requestResult() external onlyOwner returns (bytes32 requestId)
+    function requestResult(string _coin, string _market) external returns (bytes32 requestId)  //@notice - Remove onlyOwner
     {
-        require(!resultReceived, "The result has already been received.");
+        //require(!resultReceived, "The result has already been received.");
         Chainlink.Request memory req = buildChainlinkRequest(jobId, this, this.fulfill.selector);
-        req.add("low", "1");
-        req.add("high", "6");
-        req.add("copyPath", "random_number");
+        // req.add("low", "1");
+        // req.add("high", "6");
+        // req.add("copyPath", "random_number");
+
+        // @dev - request path of CoinMarketCap 
+        req.add("sym", _coin);
+        req.add("convert", _market);
+        string[] memory path = new string[](5);
+        path[0] = "data";
+        path[1] = _coin;
+        path[2] = "quote";
+        path[3] = _market;
+        path[4] = "price";
+        req.addStringArray("copyPath", path);
+        req.addInt("times", 1000000);   //@dev - i.e). Rate of Siacoin(SC) is 0.001009 USD. That's why it specify 1000000 times 
+
         requestId = sendChainlinkRequestTo(chainlinkOracleAddress(), req, oraclePaymentAmount);
     }
 
@@ -84,18 +103,20 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable{
         }
     }
 
-    function fulfill(bytes32 _requestId, int256 data)
+    function fulfill(bytes32 _requestId, uint256 _price)
     public
     recordChainlinkFulfillment(_requestId)
     {
         resultReceived = true;
-        if (data == 6)
-        {
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
+
+        currentPrice = _price;
+        // if (data == 6)
+        // {
+        //     result = true;
+        // }
+        // else
+        // {
+        //     result = false;
+        // }
     }
 }
