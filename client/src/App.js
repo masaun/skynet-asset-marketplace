@@ -102,10 +102,15 @@ class App extends Component {
     }
 
     handleRequestResults = async () => {
+        //@dev - Define variable for request to CoinMarketCap
+        const _coin = "ETH"
+        const _market = "USD" 
+
+        //@dev - Original codes
         const lastBlock = await this.state.web3.eth.getBlock("latest");
         this.setState({ message: "Requesting the result from the oracle..." });
         try {
-            await this.state.contract.methods.requestResult().send({ from: this.state.accounts[0], gas: GAS, gasPrice: GAS_PRICE });
+            await this.state.contract.methods.requestResult(_coin, _market).send({ from: this.state.accounts[0], gas: GAS, gasPrice: GAS_PRICE });
             while (true) {
                 const responseEvents = await this.state.contract.getPastEvents('ChainlinkFulfilled', { fromBlock: lastBlock.number, toBlock: 'latest' });
                 if (responseEvents.length !== 0) {
