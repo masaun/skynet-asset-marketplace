@@ -14,7 +14,16 @@ const jobId = web3.utils.toHex("e6d74030e4a440898965157bc5a08abc");      // Chai
 const paymentAmount = web3.utils.toWei("0.1");
 
 module.exports = async function (deployer) {
-    await deployer.deploy(SkynetAssetMarketplace, linkTokenAddress, oracle, jobId, coin, market, paymentAmount);
+    await deployer.deploy(
+      SkynetAssetMarketplace, 
+      linkTokenAddress, 
+      oracle, 
+      jobId, 
+      //coin, 
+      //market, 
+      paymentAmount
+    );
+    
     const skynetAssetMarketplace = await SkynetAssetMarketplace.deployed();
 
     const linkToken = await LinkTokenInterface.at(linkTokenAddress);
