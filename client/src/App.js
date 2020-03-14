@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
+import { Card, Image } from 'rimble-ui';
 
 import SkynetAssetMarketplace from "./contracts/SkynetAssetMarketplace.json";
 import getWeb3 from "./utils/getWeb3";
@@ -8,6 +9,7 @@ import getWeb3 from "./utils/getWeb3";
 import { theme } from './utils/theme';
 import Header from './components/Header';
 import "./App.css";
+
 
 const GAS = 500000;
 const GAS_PRICE = "20000000000";
@@ -346,6 +348,17 @@ class App extends Component {
 
                             <h3>Hash of being uploaded file</h3>
                             <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
+
+                            <h3>↓</h3>
+
+                            <Image
+                              alt="random unsplash image"
+                              borderRadius={8}
+                              height="100%"
+                              maxWidth='100%'
+                              src="https://source.unsplash.com/random/1280x720"
+                            />
+
                         </Grid>
                         <Grid item xs={4}>
                         </Grid>

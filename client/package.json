@@ -9,7 +9,8 @@
     "gh-pages": "^2.1.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.2.0",
+    "rimble-ui": "^0.11.1"
   },
   "scripts": {
     "start": "react-scripts start",
