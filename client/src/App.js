@@ -338,11 +338,11 @@ class App extends Component {
                         <Grid item xs={4}>
                         </Grid>
                         <Grid item xs={4}>
-                        </Grid>
-                        <Grid item xs={4}>
                             <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
                                 Upload on skynet
                             </Button>
+                        </Grid>
+                        <Grid item xs={4}>
                         </Grid>
                     </Grid>
                 </div>
