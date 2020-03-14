@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Button, Typography, Grid, TextField } from '@material-ui/core';
+import { Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import { Card, Image } from 'rimble-ui';
+import { Card, Image, Button } from 'rimble-ui';
 
 import SkynetAssetMarketplace from "./contracts/SkynetAssetMarketplace.json";
 import getWeb3 from "./utils/getWeb3";
@@ -359,6 +359,9 @@ class App extends Component {
                               src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
                             />
 
+                            <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
+                                Upload on skynet
+                            </Button>
                         </Grid>
                         <Grid item xs={4}>
                         </Grid>
