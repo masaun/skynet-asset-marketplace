@@ -86,7 +86,7 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
         path[3] = _market;
         path[4] = "price";
         req.addStringArray("copyPath", path);
-        req.addInt("times", 100);
+        req.addInt("times", 1000000);   //@dev - i.e). Rate of Siacoin(SC) is 0.001009 USD. That's why it specify 1000000 times 
 
         requestId = sendChainlinkRequestTo(chainlinkOracleAddress(), req, oraclePaymentAmount);
     }
