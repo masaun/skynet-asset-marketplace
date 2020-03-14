@@ -38,7 +38,12 @@ class App extends Component {
                 deployedNetwork && deployedNetwork.address,
             );
 
-            this.setState({ web3, accounts, contract });
+            this.setState({
+                skynet,
+                web3, 
+                accounts, 
+                contract 
+            });
 
             window.ethereum.on('accountsChanged', async (accounts) => {
                 const newAccounts = await web3.eth.getAccounts();
@@ -66,22 +71,26 @@ class App extends Component {
     //////////////////////////////////////////////////////////////////
     /// @dev - Upload files by using skynet
     //////////////////////////////////////////////////////////////////
-    (async () => {
-      // upload
-      const skylink = await skynet.UploadFile(
-        "./src.jpg",
-        skynet.DefaultUploadOptions
-      );
-      console.log(`Upload successful, skylink: ${skylink}`);
-            
-      // download
-      await skynet.DownloadFile(
-        "./dst.jpg",
-        skylink,
-        skynet.DefaultDownloadOptions
-      );
-      console.log('Download successful');
-    })()
+    upload = async () => {
+        // Reading instance of skynet
+        const { skynet } = this.state;
+
+        // Upload
+        const skylink = await skynet.UploadFile(
+            "./src.jpg",
+            skynet.DefaultUploadOptions
+        );
+        console.log(`Upload successful, skylink: ${skylink}`);
+              
+        // download
+        await skynet.DownloadFile(
+            "./dst.jpg",
+            skylink,
+            skynet.DefaultDownloadOptions
+        );
+        console.log('Download successful');
+    }
+    
 
 
 
