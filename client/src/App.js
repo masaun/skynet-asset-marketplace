@@ -85,7 +85,16 @@ class App extends Component {
             resultMessage = "Result has not been received yet";
         }
 
-        this.setState({ totalBetTrue, totalBetFalse, myBetTrue, myBetFalse, resultReceived, result, resultMessage });
+        this.setState({ 
+          totalBetTrue, 
+          totalBetFalse, 
+          myBetTrue, 
+          myBetFalse, 
+          resultReceived, 
+          result, 
+          currentPrice,   //@dev - For skynet
+          resultMessage 
+        });
     }
 
     handleUpdateForm = (name, value) => {
