@@ -77,18 +77,18 @@ class App extends Component {
 
         // Upload
         const skylink = await skynet.UploadFile(
-            "./src.jpg",
+            "./images/sample_image.jpg",
             skynet.DefaultUploadOptions
         );
         console.log(`Upload successful, skylink: ${skylink}`);
               
         // download
-        await skynet.DownloadFile(
-            "./images/sample_image.jpg",
-            skylink,
-            skynet.DefaultDownloadOptions
-        );
-        console.log('Download successful');
+        // await skynet.DownloadFile(
+        //     "./images/sample_image.jpg",
+        //     skylink,
+        //     skynet.DefaultDownloadOptions
+        // );
+        // console.log('Download successful');
     }
     
 
