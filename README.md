@@ -46,8 +46,10 @@ https://docs.chain.link/docs/coinmarketcap#section-create-your-chainlinked-contr
    - `getV1CryptocurrencyQuotesLatest` which is supported by chainlink  
      https://pro.coinmarketcap.com/api/v1#operation/getV1CryptocurrencyQuotesLatest
 
-
 <br>
 
-- honeycomb-wiki   
-https://github.com/clc-group/honeycomb-wiki/wiki
+- Tools related to chainlink（on Ropsten Testnet）
+   - Chainlink fancet  
+     https://ropsten.chain.link/
+   - Chainlink Explore  
+     https://ropsten.explorer.chain.link/

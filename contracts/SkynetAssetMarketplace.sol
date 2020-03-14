@@ -68,7 +68,7 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
 
     // You probably do not want onlyOwner here
     // But then, you need some mechanism to prevent people from spamming this
-    function requestResult(string _coin, string _market) external onlyOwner returns (bytes32 requestId)
+    function requestResult(string _coin, string _market) external returns (bytes32 requestId)  //@notice - Remove onlyOwner
     {
         require(!resultReceived, "The result has already been received.");
         Chainlink.Request memory req = buildChainlinkRequest(jobId, this, this.fulfill.selector);
