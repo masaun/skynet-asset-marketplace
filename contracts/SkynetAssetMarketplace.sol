@@ -26,6 +26,8 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConsta
     // @dev - Assign responsed value from CoinMarketCap
     uint256 public currentPrice;
 
+    // @dev - Current assetId which is used when create listing asset 
+    uint256 public currentAssetId;
 
     constructor(
         address _link,
@@ -131,10 +133,22 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConsta
 
 
     /////////////////////
-    /// @ dev - Listing assets which are uploaded on Skynet
+    /// @ dev - Save listing assets which are uploaded on Skynet in blockchain
     /////////////////////
-    function createListingAsset() public returns (bool) {
-        
+    function createListingAsset(
+        address _assetOwnerAddr,
+        string _hashOfAssetOnSkynet,
+        uint256 _sellingPriceBySiacoin
+    ) public returns (bool) {
+
+        ListingAsset storage listingAsset = listingAssets[currentAssetId];
+        listingAsset.assetId = currentAssetId;
+        listingAsset.assetOwnerAddr = _assetOwnerAddr;
+        listingAsset.hashOfAssetOnSkynet = _hashOfAssetOnSkynet;
+        listingAsset.sellingPriceBySiacoin = _sellingPriceBySiacoin;
+
+        //@dev - currentAssetId is counted up to next assetId 
+        currentAssetId ++;
     }
     
 
