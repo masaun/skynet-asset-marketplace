@@ -339,7 +339,7 @@ class App extends Component {
                                   p={20} 
                                   borderColor={"#E8E8E8"}
                             > 
-                              <h3>Register uploaded asset on skynet to Skynet Asset Marketplace</h3>
+                              <h3>Register uploaded asset on skynet into Skynet Asset Marketplace</h3>
 
                               <Grid container style={{ marginTop: 32 }}>
                                   <Grid item xs={3}>

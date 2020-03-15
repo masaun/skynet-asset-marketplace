@@ -25,7 +25,7 @@
 - ② Form of uploading asset on Skynet
   ![Screen Shot 2020-03-15 at 19 46 27](https://user-images.githubusercontent.com/19357502/76708292-016b0400-66f6-11ea-85bf-acdf52da0bda.png)  
   ↓  
-- ③ Register uploaded asset on skynet to Skynet Asset Marketplace. And then, they are listed on Skynet Asset Marketplace.  
+- ③ Register uploaded asset on skynet into Skynet Asset Marketplace. And then, they are listed on Skynet Asset Marketplace.  
  （When it at this process, `"hash" of uploaded file on skynet` and `owner address of asset` and `Selling price by siacoin(SC)` are saved on blockchain）  
   ![Screen Shot 2020-03-15 at 19 47 13](https://user-images.githubusercontent.com/19357502/76708293-02039a80-66f6-11ea-969d-54da49bfc35f.png)  
   ↓  
