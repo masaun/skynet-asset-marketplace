@@ -381,13 +381,83 @@ class App extends Component {
                             <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
 
                             <h3>↓</h3>
-                            
-                            <Button variant="contained" color="primary" onClick={() => this.createListingAsset()}>
-                                Create Listing Asset
-                            </Button>
+                        </Grid>
+                        <Grid item xs={4}>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container style={{ marginTop: 32 }}>
+                        <Grid item xs={1}>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Card width={"auto"} 
+                                  maxWidth={"840px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            > 
+                              <h3>Register uploaded asset on skynet to Skynet Asset Marketplace</h3>
+
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                      <Typography variant="h6">
+                                          {"Asset owner address: "}
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <TextField
+                                          id=""
+                                          className="input"
+                                      />
+                                  </Grid>
+                              </Grid>
+
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                      <Typography variant="h6">
+                                          {"Hash of asset on skynet: "}
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <TextField
+                                          id=""
+                                          className="input"
+                                      />
+                                  </Grid>
+                              </Grid>
+
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                      <Typography variant="h6">
+                                          {"Selling price by Siacoin (SC): "}
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <TextField
+                                          id=""
+                                          className="input"
+                                      />
+                                  </Grid>
+                              </Grid>                            
+
+                              <br />
+
+                              <Button variant="contained" color="primary" onClick={() => this.createListingAsset()}>
+                                  Create Listing Asset
+                              </Button>
+                            </Card>
 
                             <h3>↓</h3>
+                        </Grid>
+                        <Grid item xs={1}>
+                        </Grid>
+                    </Grid>                        
 
+                    <Grid container style={{ marginTop: 32 }}>
+                        <Grid item xs={4}>
+                        </Grid>
+                        <Grid item xs={4}>
                             <Card width={"auto"} 
                                   maxWidth={"420px"} 
                                   mx={"auto"} 
@@ -395,6 +465,7 @@ class App extends Component {
                                   p={20} 
                                   borderColor={"#E8E8E8"}
                             >
+                              <h3>Listed Asset from Skynet</h3>
 
                               <Image
                                 alt="random unsplash image"
@@ -408,8 +479,8 @@ class App extends Component {
                                   Getting selling price of SC & USD
                               </Button>
 
-                              <p>Price: 100 SC（0.001 USD）</p>
-                              <p>{`Price: 100 SC (${this.state.ConvertedPriceFromSiacoinToUSD} USD)`}</p>
+                              <p>{`Price(SC):  100 SC`}</p>
+                              <p>{`Price(USD): 100 SC × ${this.state.currentPrice} USD`}</p>
 
                               <Button variant="contained" color="primary">
                                   Buy this asset
@@ -417,7 +488,7 @@ class App extends Component {
                             </Card>
                         </Grid>
                         <Grid item xs={4}>
-                        </Grid>
+                        </Grid>                     
                     </Grid>
                 </div>
             </ThemeProvider>
