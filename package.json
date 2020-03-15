@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "client": "cd client && npm run start",
+    "compile:ropsten": "truffle compile --network ropsten --reset",
     "migrate:ropsten": "truffle migrate --network ropsten --reset"
   },
   "author": "masaun",

@@ -1,9 +1,17 @@
 pragma solidity 0.4.24;
 
+// Chainlink
 import "../node_modules/chainlink/contracts/ChainlinkClient.sol";
+
+// OpenZeppelin
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
+// Storage
+import "./storage/SyStorage.sol";
+import "./storage/SyConstants.sol";
+
+
+contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConstants {
     mapping(address => uint256) private betsTrue;
     mapping(address => uint256) private betsFalse;
     uint256 public totalBetTrue;
@@ -119,4 +127,11 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
         //     result = false;
         // }
     }
+
+
+
+    /////////////////////
+    /// @ dev - Listing assets which are uploaded on Skynet
+    /////////////////////
+
 }
