@@ -283,11 +283,13 @@ class App extends Component {
                                   </Grid>
                               </Grid>
 
+                              <p>{this.state.message}</p>
+
                               <h3>↓</h3>
 
+                              <h3>Result of price</h3>
                               <Typography variant="h5" style={{ marginTop: 32 }}>
-                                  {this.state.message} <br />
-                                  Result of price: {this.state.messageOfResult}
+                                 {this.state.messageOfResult}
                               </Typography>
                             </Card>
 
@@ -298,21 +300,31 @@ class App extends Component {
                     </Grid>
 
                     <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={4}>
+                        <Grid item xs={2}>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
-                                Upload on skynet
-                            </Button>
+                        <Grid item xs={8}>
+                            <Card width={"auto"} 
+                                  maxWidth={"840px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            >
+                              <h3>Request result to CoinMarketCap via chainlink's oracle</h3>
+
+                              <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
+                                  Upload on skynet
+                              </Button>
+
+                              <h3>↓</h3>
+
+                              <h3>Hash of being uploaded file</h3>
+                              <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
+                            </Card>
 
                             <h3>↓</h3>
-
-                            <h3>Hash of being uploaded file</h3>
-                            <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
-
-                            <h3>↓</h3>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={2}>
                         </Grid>
                     </Grid>
 
