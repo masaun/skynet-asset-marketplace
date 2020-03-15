@@ -1,9 +1,17 @@
 pragma solidity 0.4.24;
 
+// Chainlink
 import "../node_modules/chainlink/contracts/ChainlinkClient.sol";
+
+// OpenZeppelin
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
+// Storage
+import "./storage/SyStorage.sol";
+import "./storage/SyConstants.sol";
+
+
+contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConstants {
     mapping(address => uint256) private betsTrue;
     mapping(address => uint256) private betsFalse;
     uint256 public totalBetTrue;
@@ -18,6 +26,8 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
     // @dev - Assign responsed value from CoinMarketCap
     uint256 public currentPrice;
 
+    // @dev - Current assetId which is used when create listing asset 
+    uint256 public currentAssetId;
 
     constructor(
         address _link,
@@ -119,4 +129,35 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable {
         //     result = false;
         // }
     }
+
+
+
+    /////////////////////
+    /// @dev - Save listing assets which are uploaded on Skynet in blockchain and that is listed SkynetAssetMarketplace
+    /////////////////////
+    function createListingAsset(
+        address _assetOwnerAddr,
+        string _hashOfAssetOnSkynet,
+        uint256 _sellingPriceBySiacoin
+    ) public returns (bool) {
+        ListingAsset storage listingAsset = listingAssets[currentAssetId];
+        listingAsset.assetId = currentAssetId;
+        listingAsset.assetOwnerAddr = _assetOwnerAddr;
+        listingAsset.hashOfAssetOnSkynet = _hashOfAssetOnSkynet;
+        listingAsset.sellingPriceBySiacoin = _sellingPriceBySiacoin;
+
+        emit CreateListingAsset(listingAsset.assetId, 
+                                listingAsset.assetOwnerAddr, 
+                                listingAsset.hashOfAssetOnSkynet, 
+                                listingAsset.sellingPriceBySiacoin);
+
+        //@dev - currentAssetId is counted up to next assetId 
+        currentAssetId ++;
+    }
+    
+    function getSellingPriceBySiacoin(uint256 _assetId) public view returns (uint256) {
+        ListingAsset memory listingAsset = listingAssets[_assetId];
+        return listingAsset.sellingPriceBySiacoin;
+    }
+    
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Button, Typography, Grid, TextField } from '@material-ui/core';
+import { Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import { Card, Image } from 'rimble-ui';
+import { Card, Image, Button } from 'rimble-ui';
 
 import SkynetAssetMarketplace from "./contracts/SkynetAssetMarketplace.json";
 import getWeb3 from "./utils/getWeb3";
@@ -94,6 +94,21 @@ class App extends Component {
     }
     
 
+    //////////////////////////////////////////////////////////////////
+    /// @dev - Save listing assets which are uploaded on Skynet in blockchain and that is listed SkynetAssetMarketplace
+    //////////////////////////////////////////////////////////////////
+    createListingAsset = async () => {
+        const { web3, accounts, contract } = this.state;
+
+        const _assetOwnerAddr = accounts[0];
+        const _hashOfAssetOnSkynet = 'https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA';
+        const _sellingPriceBySiacoin = 100;  // 100 SC
+
+        const response = await this.state.contract.methods.createListingAsset(_assetOwnerAddr,
+                                                                              _hashOfAssetOnSkynet,
+                                                                              _sellingPriceBySiacoin).send({ from: accounts[0] });
+        console.log('=== response of createListingAsset() ===', response);
+    }
 
 
     //////////////////////////////////////////////////////////////////
@@ -139,6 +154,22 @@ class App extends Component {
           currentPrice,   //@dev - For skynet
           resultMessage 
         });
+    }
+
+    priceCulculation = async () => {
+        const { web3, accounts, contract, currentPrice } = this.state;
+
+        //@dev - Call saved price by SC from Struct of ListingAsset
+        const _assetId = 0;
+        const _sellingPriceBySiacoin = await this.state.contract.methods.getSellingPriceBySiacoin(_assetId).call();
+        const sellingPriceBySiacoin = parseFloat(_sellingPriceBySiacoin);
+        console.log('=== sellingPriceBySiacoin ===', sellingPriceBySiacoin);
+        console.log('=== currentPrice ===', currentPrice);
+
+        const ConvertedPriceFromSiacoinToUSD = currentPrice ** sellingPriceBySiacoin;
+        console.log('=== ConvertedPriceFromSiacoinToUSD ===', ConvertedPriceFromSiacoinToUSD);
+
+        this.setState({ ConvertedPriceFromSiacoinToUSD });
     }
 
     handleUpdateForm = (name, value) => {
@@ -222,146 +253,180 @@ class App extends Component {
             <ThemeProvider theme={theme}>
                 <div className="App">
                     <Header />
-                    <Typography variant="h5" style={{ marginTop: 32 }}>
-                        Oracle is going to return a number between 1 and 6
-                    </Typography>
-                    <Typography variant="h5" style={{ marginTop: 32 }}>
-                        {this.state.resultMessage}
-                    </Typography>
 
                     <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={3}>
-                        <Typography variant="h5">
-                                Betting on
-                            </Typography>
+                        <Grid item xs={1}>
                         </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                6
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                Not 6
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                        <Grid item xs={10}>
+                            <Card width={"auto"} 
+                                  maxWidth={"840px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            >
+                              <h3>Request result to CoinMarketCap via chainlink's oracle</h3>
 
-                    <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                {"Total bets"}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                {`${this.state.totalBetTrue}`}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                {`${this.state.totalBetFalse}`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                              <h10>
+                                  Oracle is going to return token price of Siacoin (display converted price from SC to USD) 
+                              </h10>
 
-                    <Grid container>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                {"Your bets"}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                {`${this.state.myBetTrue}`}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                {`${this.state.myBetFalse}`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <Button variant="contained" color="primary" onClick={() => this.handleRequestResults()}>
+                                          Request result
+                                      </Button>
+                                  </Grid>
+                                  <Grid item xs={3}>
+                                  </Grid>
+                              </Grid>
 
-                    <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={3}>
-                            <Typography variant="h5">
-                                {"Bet amount"}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                id="bet-amount"
-                                className="input"
-                                value={this.state.betAmount}
-                                onChange={e => this.handleUpdateForm('betAmount', e.target.value)}
-                            />
-                        </Grid>
-                    </Grid>
+                              <p>{this.state.message}</p>
 
-                    <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={3}>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Button variant="contained" color="primary" onClick={() => this.handleBet("true")}>
-                                Bet on 6
-                            </Button>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Button variant="contained" color="primary" onClick={() => this.handleBet("false")}>
-                                Bet on not 6
-                            </Button>
-                        </Grid>
-                    </Grid>
+                              <h3>↓</h3>
 
-                    <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={3}>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Button variant="contained" color="primary" onClick={() => this.handleRequestResults()}>
-                                Request result
-                            </Button>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Button variant="contained" color="primary" onClick={() => this.handleWithdraw()}>
-                                Withdraw winnings
-                            </Button>
-                        </Grid>
-                    </Grid>
-
-                    <Typography variant="h5" style={{ marginTop: 32 }}>
-                        {this.state.message} <br />
-                        {this.state.messageOfResult}
-                    </Typography>
-
-                    <hr />
-
-                    <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={4}>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
-                                Upload on skynet
-                            </Button>
+                              <h3>Result of price</h3>
+                              <Typography variant="h5" style={{ marginTop: 32 }}>
+                                 {this.state.messageOfResult}
+                              </Typography>
+                            </Card>
 
                             <h3>↓</h3>
+                        </Grid>
+                        <Grid item xs={1}>
+                        </Grid>
+                    </Grid>
 
-                            <h3>Hash of being uploaded file</h3>
-                            <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
+                    <Grid container style={{ marginTop: 32 }}>
+                        <Grid item xs={2}>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Card width={"auto"} 
+                                  maxWidth={"840px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            >
+                              <h3>Request result to CoinMarketCap via chainlink's oracle</h3>
+
+                              <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
+                                  Upload on skynet
+                              </Button>
+
+                              <h3>↓</h3>
+
+                              <h3>Hash of being uploaded file</h3>
+                              <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
+                            </Card>
 
                             <h3>↓</h3>
-
-                            <Image
-                              alt="random unsplash image"
-                              borderRadius={8}
-                              height="100%"
-                              maxWidth='100%'
-                              src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
-                            />
-
                         </Grid>
+                        <Grid item xs={2}>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container style={{ marginTop: 32 }}>
+                        <Grid item xs={1}>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Card width={"auto"} 
+                                  maxWidth={"840px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            > 
+                              <h3>Register uploaded asset on skynet to Skynet Asset Marketplace</h3>
+
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                      <Typography variant="h6">
+                                          {"Asset owner address: "}
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <TextField
+                                          id=""
+                                          className="input"
+                                      />
+                                  </Grid>
+                              </Grid>
+
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                      <Typography variant="h6">
+                                          {"Hash of asset on skynet: "}
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <TextField
+                                          id=""
+                                          className="input"
+                                      />
+                                  </Grid>
+                              </Grid>
+
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                      <Typography variant="h6">
+                                          {"Selling price by Siacoin (SC): "}
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <TextField
+                                          id=""
+                                          className="input"
+                                      />
+                                  </Grid>
+                              </Grid>                            
+
+                              <br />
+
+                              <Button variant="contained" color="primary" onClick={() => this.createListingAsset()}>
+                                  Create Listing Asset
+                              </Button>
+                            </Card>
+
+                            <h3>↓</h3>
+                        </Grid>
+                        <Grid item xs={1}>
+                        </Grid>
+                    </Grid>                        
+
+                    <Grid container style={{ marginTop: 32 }}>
                         <Grid item xs={4}>
                         </Grid>
+                        <Grid item xs={4}>
+                            <Card width={"auto"} 
+                                  maxWidth={"420px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            >
+                              <h3>Listed Asset from Skynet</h3>
+
+                              <Image
+                                alt="random unsplash image"
+                                borderRadius={8}
+                                height="100%"
+                                maxWidth='100%'
+                                src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
+                              />
+
+                              <p>{`Price(SC):  100 SC`}</p>
+                              <p>{`Price(USD): 100 SC × ${this.state.currentPrice} USD`}</p>
+
+                              <Button variant="contained" color="primary">
+                                  Buy this asset
+                              </Button>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={4}>
+                        </Grid>                     
                     </Grid>
                 </div>
             </ThemeProvider>
