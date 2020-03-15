@@ -133,5 +133,9 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConsta
     /////////////////////
     /// @ dev - Listing assets which are uploaded on Skynet
     /////////////////////
+    function createListingAsset() public returns (bool) {
+        
+    }
+    
 
 }

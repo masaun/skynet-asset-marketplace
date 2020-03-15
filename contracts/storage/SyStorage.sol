@@ -7,6 +7,9 @@ import "./SyEvents.sol";
 // shared storage
 contract SyStorage is SyObjects, SyEvents {
 
+    mapping (uint => ListingAsset) listingAssets;
+    
+
     mapping (uint256 => ExampleObject) examples;
 
 }
