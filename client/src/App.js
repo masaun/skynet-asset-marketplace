@@ -157,10 +157,15 @@ class App extends Component {
     }
 
     priceCulculation = async () => {
-        const { currentPrice } = this.state;
+        const { web3, accounts, contract, currentPrice } = this.state;
 
-        const PutPriceBySiacoin = 100;  //@dev - It mean that 100 SC that seller put. 
-        const ConvertedPriceFromSiacoinToUSD = currentPrice ** PutPriceBySiacoin;
+        //@dev - Call saved price by SC from Struct of ListingAsset
+        const _assetId = 0;
+        const sellingPriceBySiacoin = await this.state.contract.methods.getSellingPriceBySiacoin(_assetId).call();
+        console.log('=== sellingPriceBySiacoin ===', sellingPriceBySiacoin);
+
+        const ConvertedPriceFromSiacoinToUSD = currentPrice ** sellingPriceBySiacoin;
+        console.log('=== ConvertedPriceFromSiacoinToUSD ===', ConvertedPriceFromSiacoinToUSD);
 
         this.setState({ ConvertedPriceFromSiacoinToUSD });
     }

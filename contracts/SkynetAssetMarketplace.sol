@@ -155,5 +155,9 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConsta
         currentAssetId ++;
     }
     
-
+    function getSellingPriceBySiacoin(uint256 _assetId) public view returns (uint256) {
+        ListingAsset memory listingAsset = listingAssets[_assetId];
+        return listingAsset.sellingPriceBySiacoin;
+    }
+    
 }
