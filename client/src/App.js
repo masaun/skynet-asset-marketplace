@@ -253,31 +253,49 @@ class App extends Component {
             <ThemeProvider theme={theme}>
                 <div className="App">
                     <Header />
-                    <Typography variant="h5" style={{ marginTop: 32 }}>
-                        Oracle is going to return token price of Siacoin (display converted price from SC to USD) 
-                    </Typography>
-                    <Typography variant="h5" style={{ marginTop: 32 }}>
-                        {this.state.resultMessage}
-                    </Typography>
 
                     <Grid container style={{ marginTop: 32 }}>
-                        <Grid item xs={3}>
+                        <Grid item xs={1}>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Button variant="contained" color="primary" onClick={() => this.handleRequestResults()}>
-                                Request result
-                            </Button>
+                        <Grid item xs={10}>
+                            <Card width={"auto"} 
+                                  maxWidth={"840px"} 
+                                  mx={"auto"} 
+                                  my={5} 
+                                  p={20} 
+                                  borderColor={"#E8E8E8"}
+                            >
+                              <h3>Request result to CoinMarketCap via chainlink's oracle</h3>
+
+                              <h10>
+                                  Oracle is going to return token price of Siacoin (display converted price from SC to USD) 
+                              </h10>
+
+                              <Grid container style={{ marginTop: 32 }}>
+                                  <Grid item xs={3}>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                      <Button variant="contained" color="primary" onClick={() => this.handleRequestResults()}>
+                                          Request result
+                                      </Button>
+                                  </Grid>
+                                  <Grid item xs={3}>
+                                  </Grid>
+                              </Grid>
+
+                              <h3>↓</h3>
+
+                              <Typography variant="h5" style={{ marginTop: 32 }}>
+                                  {this.state.message} <br />
+                                  Result of price: {this.state.messageOfResult}
+                              </Typography>
+                            </Card>
+
+                            <h3>↓</h3>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={1}>
                         </Grid>
                     </Grid>
-
-                    <Typography variant="h5" style={{ marginTop: 32 }}>
-                        {this.state.message} <br />
-                        {this.state.messageOfResult}
-                    </Typography>
-
-                    <hr />
 
                     <Grid container style={{ marginTop: 32 }}>
                         <Grid item xs={4}>
