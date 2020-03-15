@@ -133,14 +133,13 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConsta
 
 
     /////////////////////
-    /// @ dev - Save listing assets which are uploaded on Skynet in blockchain
+    /// @dev - Save listing assets which are uploaded on Skynet in blockchain and that is listed SkynetAssetMarketplace
     /////////////////////
     function createListingAsset(
         address _assetOwnerAddr,
         string _hashOfAssetOnSkynet,
         uint256 _sellingPriceBySiacoin
     ) public returns (bool) {
-
         ListingAsset storage listingAsset = listingAssets[currentAssetId];
         listingAsset.assetId = currentAssetId;
         listingAsset.assetOwnerAddr = _assetOwnerAddr;

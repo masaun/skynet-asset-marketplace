@@ -94,6 +94,21 @@ class App extends Component {
     }
     
 
+    //////////////////////////////////////////////////////////////////
+    /// @dev - Save listing assets which are uploaded on Skynet in blockchain and that is listed SkynetAssetMarketplace
+    //////////////////////////////////////////////////////////////////
+    createListingAsset = async () => {
+        const { web3, accounts, contract } = this.state;
+
+        const _assetOwnerAddr = accounts[0];
+        const _hashOfAssetOnSkynet = 'https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA';
+        const _sellingPriceBySiacoin = 100;  // 100 SC
+
+        const response = await this.state.contract.methods.createListingAsset(_assetOwnerAddr,
+                                                                              _hashOfAssetOnSkynet,
+                                                                              _sellingPriceBySiacoin).send({ from: accounts[0] });
+        console.log('=== response of createListingAsset() ===', response);
+    }
 
 
     //////////////////////////////////////////////////////////////////
@@ -357,6 +372,12 @@ class App extends Component {
 
                             <h3>Hash of being uploaded file</h3>
                             <p>https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA</p>
+
+                            <h3>↓</h3>
+                            
+                            <Button variant="contained" color="primary" onClick={() => this.createListingAsset()}>
+                                Create Listing Asset
+                            </Button>
 
                             <h3>↓</h3>
 
