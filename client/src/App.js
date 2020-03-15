@@ -161,8 +161,10 @@ class App extends Component {
 
         //@dev - Call saved price by SC from Struct of ListingAsset
         const _assetId = 0;
-        const sellingPriceBySiacoin = await this.state.contract.methods.getSellingPriceBySiacoin(_assetId).call();
+        const _sellingPriceBySiacoin = await this.state.contract.methods.getSellingPriceBySiacoin(_assetId).call();
+        const sellingPriceBySiacoin = parseFloat(_sellingPriceBySiacoin);
         console.log('=== sellingPriceBySiacoin ===', sellingPriceBySiacoin);
+        console.log('=== currentPrice ===', currentPrice);
 
         const ConvertedPriceFromSiacoinToUSD = currentPrice ** sellingPriceBySiacoin;
         console.log('=== ConvertedPriceFromSiacoinToUSD ===', ConvertedPriceFromSiacoinToUSD);
@@ -402,8 +404,12 @@ class App extends Component {
                                 src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
                               />
 
+                              <Button variant="contained" color="primary" onClick={() => this.priceCulculation()}>
+                                  Getting selling price of SC & USD
+                              </Button>
+
                               <p>Price: 100 SC（0.001 USD）</p>
-                              <p>{`Price: 100 SC (${this.state.ConvertedPriceFromSiacoinToUSD})`}</p>
+                              <p>{`Price: 100 SC (${this.state.ConvertedPriceFromSiacoinToUSD} USD)`}</p>
 
                               <Button variant="contained" color="primary">
                                   Buy this asset
