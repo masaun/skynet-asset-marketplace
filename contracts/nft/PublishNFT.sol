@@ -43,11 +43,4 @@ contract PublishNFT is ERC721Token, Ownable {
         return "";
     }
 
-    // function tokenURI(uint256 _tokenId) external view returns (string) {
-    //    return Strings.strConcat(
-    //        baseTokenURI(),
-    //        Strings.uint2str(_tokenId)
-    //    );
-    // }
-
 }

@@ -115,12 +115,6 @@ class App extends Component {
     /// @dev - Price Feed of SC (SiaCoin) by using ChainLink's oracle
     //////////////////////////////////////////////////////////////////
     refreshState = async () => {
-        const totalBetTrue = await this.state.web3.utils.fromWei(await this.state.contract.methods.totalBetTrue().call());
-        const totalBetFalse = await this.state.web3.utils.fromWei(await this.state.contract.methods.totalBetFalse().call());
-
-        const myBetTrue = await this.state.web3.utils.fromWei(await this.state.contract.methods.getBetAmount(true).call({ from: this.state.accounts[0] }));
-        const myBetFalse = await this.state.web3.utils.fromWei(await this.state.contract.methods.getBetAmount(false).call({ from: this.state.accounts[0] }));
-
         const resultReceived = await this.state.contract.methods.resultReceived().call();
         const result = await this.state.contract.methods.result().call();
 
@@ -144,11 +138,7 @@ class App extends Component {
             resultMessage = "Result has not been received yet";
         }
 
-        this.setState({ 
-          totalBetTrue, 
-          totalBetFalse, 
-          myBetTrue, 
-          myBetFalse, 
+        this.setState({
           resultReceived, 
           result, 
           currentPrice,   //@dev - For skynet
@@ -198,41 +188,6 @@ class App extends Component {
         } catch (error) {
             console.error(error);
             this.setState({ message: "Failed getting the result" });
-        }
-    }
-
-    handleWithdraw = async () => {
-        try {
-            const balanceBefore = await this.state.web3.utils.fromWei(await this.state.web3.eth.getBalance(this.state.accounts[0]));
-            await this.state.contract.methods.withdraw().send({ from: this.state.accounts[0], gas: GAS, gasPrice: GAS_PRICE });
-            const balanceAfter = await this.state.web3.utils.fromWei(await this.state.web3.eth.getBalance(this.state.accounts[0]))
-            this.refreshState();
-            this.setState({ message: `You received ${balanceAfter - balanceBefore} ETH` });
-        }
-        catch (error) {
-            console.error(error);
-            this.setState({ message: "Failed withdrawing" });
-        }
-    }
-
-    handleBet = async (betResultString) => {
-        this.setState({ message: 'Placing bet...' });
-
-        var betResult;
-        if (betResultString === "true") {
-            betResult = true;
-        }
-        else if (betResultString === "false") {
-            betResult = false;
-        }
-
-        try {
-            await this.state.contract.methods.bet(betResult).send({ from: this.state.accounts[0], value: this.state.web3.utils.toWei(this.state.betAmount), gas: GAS, gasPrice: GAS_PRICE });
-            this.refreshState();
-            this.setState({ message: 'Bet placed' });
-        } catch (error) {
-            console.error(error);
-            this.setState({ message: 'Failed placing the bet' });
         }
     }
 
