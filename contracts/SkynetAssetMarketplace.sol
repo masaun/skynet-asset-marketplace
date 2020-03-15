@@ -146,6 +146,11 @@ contract SkynetAssetMarketplace is ChainlinkClient, Ownable, SyStorage, SyConsta
         listingAsset.hashOfAssetOnSkynet = _hashOfAssetOnSkynet;
         listingAsset.sellingPriceBySiacoin = _sellingPriceBySiacoin;
 
+        emit CreateListingAsset(listingAsset.assetId, 
+                                listingAsset.assetOwnerAddr, 
+                                listingAsset.hashOfAssetOnSkynet, 
+                                listingAsset.sellingPriceBySiacoin);
+
         //@dev - currentAssetId is counted up to next assetId 
         currentAssetId ++;
     }
