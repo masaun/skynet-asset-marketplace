@@ -310,7 +310,7 @@ class App extends Component {
                                   p={20} 
                                   borderColor={"#E8E8E8"}
                             >
-                              <h3>Request result to CoinMarketCap via chainlink's oracle</h3>
+                              <h3>Form of uploading asset on Skynet</h3>
 
                               <Button variant="contained" color="primary" onClick={() => this.uploadOnSkynet()}>
                                   Upload on skynet

@@ -18,6 +18,22 @@
 
 <br />
 
+## Process which is from upload asset on skynet to listing and buying/seling on Skynet Asset Martketplace
+- ① Request result to CoinMarketCap via chainlink's oracle
+  ![Screen Shot 2020-03-15 at 19 46 12](https://user-images.githubusercontent.com/19357502/76708288-0039d700-66f6-11ea-828a-f2152aeb9fa7.png)
+   ↓
+- ② Form of uploading asset on Skynet
+  ![Screen Shot 2020-03-15 at 19 46 27](https://user-images.githubusercontent.com/19357502/76708292-016b0400-66f6-11ea-85bf-acdf52da0bda.png)
+  ↓
+- ③ Register uploaded asset on skynet to Skynet Asset Marketplace
+  ![Screen Shot 2020-03-15 at 19 47 13](https://user-images.githubusercontent.com/19357502/76708293-02039a80-66f6-11ea-969d-54da49bfc35f.png)
+  ↓
+- ④ Listed Asset from Skynet
+  ![Screen Shot 2020-03-15 at 19 47 23](https://user-images.githubusercontent.com/19357502/76708294-029c3100-66f6-11ea-90bc-1b4930c095df.png)
+
+
+<br />
+
 ## Reference and resources
 - Gitcoin Skynet Hackathon Challenge   
 https://gitcoin.co/issue/NebulousLabs/Skynet-Hive/1/4058
