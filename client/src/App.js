@@ -475,10 +475,6 @@ class App extends Component {
                                 src="https://siasky.net/fAFCQmh7T_dXgm9FTv1COEGTNiC8IUVfmYLgZ3tecW8iSA"
                               />
 
-                              <Button variant="contained" color="primary" onClick={() => this.priceCulculation()}>
-                                  Getting selling price of SC & USD
-                              </Button>
-
                               <p>{`Price(SC):  100 SC`}</p>
                               <p>{`Price(USD): 100 SC × ${this.state.currentPrice} USD`}</p>
 
