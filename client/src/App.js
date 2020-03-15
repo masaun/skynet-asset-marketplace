@@ -141,6 +141,15 @@ class App extends Component {
         });
     }
 
+    priceCulculation = async () => {
+        const { currentPrice } = this.state;
+
+        const PutPriceBySiacoin = 100;  //@dev - It mean that 100 SC that seller put. 
+        const ConvertedPriceFromSiacoinToUSD = currentPrice ** PutPriceBySiacoin;
+
+        this.setState({ ConvertedPriceFromSiacoinToUSD });
+    }
+
     handleUpdateForm = (name, value) => {
         this.setState({ [name]: value });
     }
@@ -368,6 +377,7 @@ class App extends Component {
                               />
 
                               <p>Price: 100 SC（0.001 USD）</p>
+                              <p>{`Price: 100 SC (${this.state.ConvertedPriceFromSiacoinToUSD})`}</p>
 
                               <Button variant="contained" color="primary">
                                   Buy this asset
